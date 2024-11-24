@@ -42,32 +42,6 @@ CREATE TABLE Reviews (
     FOREIGN KEY (customer_Id) REFERENCES Customers(customer_Id) ON DELETE CASCADE
 );
 
-CREATE TABLE Payments (
-    payment_Id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_Id INT,
-    payment_method ENUM('credit_card', 'paypal', 'bank_transfer'),
-    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
-    amount DECIMAL(10,2),
-    transaction_Id VARCHAR(255),
-    FOREIGN KEY (booking_Id) REFERENCES Bookings(booking_Id) ON DELETE CASCADE
-);
-
-CREATE TABLE Bookings (
-    booking_Id INT PRIMARY KEY AUTO_INCREMENT,
-    customer_Id INT,
-    hotel_Id INT,
-    flight_Id INT,
-    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    start_date DATE NULL,
-    end_date DATE NULL,
-    total_price DECIMAL(10, 2),
-    status ENUM ('pending', 'confirmed', 'cancelled', 'completed') DEFAULT 'pending',
-    FOREIGN KEY (hotel_Id) REFERENCES Hotels(hotel_Id) ON DELETE SET NULL,
-    FOREIGN KEY (flight_Id) REFERENCES Flights(flight_Id) ON DELETE SET NULL,
-    FOREIGN KEY (customer_Id) REFERENCES Customers(customer_Id) ON DELETE CASCADE
-);
-
 CREATE TABLE Flights (
     flight_Id INT PRIMARY KEY AUTO_INCREMENT,
     flight_number VARCHAR(50) NOT NULL,
@@ -89,4 +63,30 @@ CREATE TABLE Hotels (
     hotel_price_per_night DECIMAL(10, 2),
     hotel_available_rooms INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Bookings (
+    booking_Id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_Id INT,
+    hotel_Id INT,
+    flight_Id INT,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_date DATE NULL,
+    end_date DATE NULL,
+    total_price DECIMAL(10, 2),
+    status ENUM ('pending', 'confirmed', 'cancelled', 'completed') DEFAULT 'pending',
+    FOREIGN KEY (hotel_Id) REFERENCES Hotels(hotel_Id) ON DELETE SET NULL,
+    FOREIGN KEY (flight_Id) REFERENCES Flights(flight_Id) ON DELETE SET NULL,
+    FOREIGN KEY (customer_Id) REFERENCES Customers(customer_Id) ON DELETE CASCADE
+);
+
+CREATE TABLE Payments (
+    payment_Id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_Id INT,
+    payment_method ENUM('credit_card', 'paypal', 'bank_transfer'),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    amount DECIMAL(10,2),
+    transaction_Id VARCHAR(255),
+    FOREIGN KEY (booking_Id) REFERENCES Bookings(booking_Id) ON DELETE CASCADE
 );
