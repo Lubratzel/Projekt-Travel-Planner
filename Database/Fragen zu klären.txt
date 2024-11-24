@@ -1,0 +1,3 @@
+1 zu n oder n zu m bei bookings zu flights?
+Reviews brauchen eine booking_id?
+bookings zu payments ist doch eig eine 1 zu 1 verbindung oder?
